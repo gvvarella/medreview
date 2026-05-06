@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Med-Review R1 — Apresentação Executiva</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#0D1117;--ink-2:#1E2B3A;--ink-mid:#2A3441;--ink-soft:#5A6578;--ink-mute:#8A96A4;
+  --red:#C8102E;--red-deep:#8B0A1E;--red-light:#FEF0F2;--red-border:rgba(200,16,46,0.18);
+  --cream:#FAFAF8;--cream-2:#F4F3EF;--cream-3:#ECEAE4;
+  --border:rgba(13,17,23,0.09);--border-2:rgba(13,17,23,0.16);
+  --white:#fff;
+  --green:#1A7A4A;--green-light:#EDF7F2;--green-mid:#146038;
+  --amber:#B86B00;--amber-light:#FFF8EE;
+  --blue:#1251A3;--blue-light:#EEF4FF;
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink);line-height:1.6;overflow-x:hidden}
+
+/* ── PROGRESS + NAV ── */
+#progress{position:fixed;top:0;left:0;height:3px;background:var(--red);z-index:200;transition:width .08s}
+nav{position:fixed;top:3px;left:0;right:0;z-index:100;background:rgba(250,250,248,.94);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 4rem}
+.nav-logo{font-family:'Playfair Display',serif;font-weight:900;font-size:1rem;letter-spacing:-.02em}
+.nav-logo span{color:var(--red)}
+.nav-pills{display:flex;gap:.4rem}
+.nav-pills a{text-decoration:none;font-size:.72rem;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-soft);padding:.35rem .75rem;border-radius:100px;transition:all .18s}
+.nav-pills a:hover{background:var(--red-light);color:var(--red)}
+
+/* ── SHARED ── */
+.label{font-size:.68rem;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--red);display:flex;align-items:center;gap:8px;margin-bottom:1rem}
+.label::before{content:'';width:18px;height:2px;background:var(--red);display:block;flex-shrink:0}
+.label-white{color:rgba(255,255,255,.5)}
+.label-white::before{background:rgba(255,255,255,.3)}
+h2.title{font-family:'Playfair Display',serif;font-size:clamp(2rem,3.2vw,3rem);font-weight:700;line-height:1.1;letter-spacing:-.025em;color:var(--ink);margin-bottom:1rem}
+h2.title-white{color:#fff}
+.sub{font-size:.98rem;font-weight:300;color:var(--ink-soft);max-width:52ch;line-height:1.85}
+.sub-white{color:rgba(255,255,255,.55)}
+.wrap{max-width:1240px;margin:0 auto;padding:0 4rem}
+section{padding:6.5rem 0}
+.divider{width:100%;height:1px;background:var(--border);margin:3rem 0}
+
+/* ── HERO ── */
+.hero{min-height:100vh;display:grid;grid-template-columns:1.1fr .9fr;padding-top:63px}
+.hero-l{background:var(--ink-2);padding:7rem 5rem 5rem;display:flex;flex-direction:column;justify-content:center;position:relative}
+.hero-l::after{content:'';position:absolute;right:-1px;top:0;bottom:0;width:3px;background:var(--red)}
+.hero-tag{font-size:.68rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--red);margin-bottom:2rem;display:flex;align-items:center;gap:10px}
+.hero-tag::before{content:'';width:28px;height:2px;background:var(--red);display:block}
+.hero-title{font-family:'Playfair Display',serif;font-size:clamp(3rem,5vw,4.8rem);font-weight:900;line-height:.97;letter-spacing:-.04em;color:#fff;margin-bottom:2.2rem}
+.hero-title em{color:var(--red);font-style:normal}
+.hero-desc{font-size:1rem;font-weight:300;color:rgba(255,255,255,.55);max-width:40ch;line-height:1.85;margin-bottom:3rem}
+.hero-cta{display:inline-flex;align-items:center;gap:10px;background:var(--red);color:#fff;text-decoration:none;padding:.9rem 2rem;font-size:.8rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;transition:all .2s}
+.hero-cta:hover{background:var(--red-deep);transform:translateX(4px)}
+.hero-r{background:var(--cream-2);padding:7rem 4rem 5rem;display:flex;flex-direction:column;justify-content:center;gap:0}
+
+.stat-row{display:grid;grid-template-columns:3px 1fr;gap:1.6rem;align-items:start;padding:2rem 0;border-bottom:1px solid var(--border)}
+.stat-row:first-child{border-top:1px solid var(--border)}
+.stat-bar{background:var(--red);height:100%}
+.stat-num{font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:900;line-height:1;letter-spacing:-.04em;color:var(--ink)}
+.stat-txt{font-size:.84rem;color:var(--ink-soft);margin-top:.35rem;line-height:1.5}
+.stat-badge{display:inline-block;font-size:.65rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:.25rem .7rem;border-radius:100px;margin-bottom:.5rem}
+.badge-red{background:var(--red-light);color:var(--red);border:1px solid var(--red-border)}
+.badge-green{background:var(--green-light);color:var(--green-mid);border:1px solid rgba(26,122,74,.2)}
+.badge-blue{background:var(--blue-light);color:var(--blue);border:1px solid rgba(18,81,163,.18)}
+.badge-amber{background:var(--amber-light);color:var(--amber);border:1px solid rgba(184,107,0,.2)}
+
+/* ── PROBLEMA ── */
+.prob-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border-2);border:1px solid var(--border-2);margin-top:3.5rem}
+.prob-card{background:var(--white);padding:2.5rem 2rem}
+.prob-n{font-family:'DM Mono',monospace;font-size:.68rem;color:var(--red);letter-spacing:.1em;margin-bottom:1rem}
+.prob-title{font-size:1.1rem;font-weight:600;color:var(--ink);margin-bottom:.7rem;font-family:'Playfair Display',serif}
+.prob-txt{font-size:.875rem;color:var(--ink-soft);line-height:1.75}
+
+/* ── HIPÓTESE ── */
+.hipotese{background:var(--ink);padding:5.5rem 4rem}
+.hip-inner{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:1fr 2.2fr;gap:5rem;align-items:center}
+.hip-tag{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:700;color:#fff;line-height:1.3}
+.hip-quote{font-family:'Playfair Display',serif;font-size:clamp(1.2rem,2vw,1.65rem);font-style:italic;color:rgba(255,255,255,.82);line-height:1.65;border-left:3px solid var(--red);padding-left:2rem}
+
+/* ── FUNIL ── */
+.funil-item{display:grid;grid-template-columns:72px 1fr auto;gap:2rem;align-items:start;padding:1.8rem 1.2rem;border-bottom:1px solid var(--border);border-radius:3px;transition:background .15s;cursor:default}
+.funil-item:hover{background:var(--red-light)}
+.funil-item:hover .f-badge{background:var(--red);color:#fff;border-color:var(--red)}
+.f-badge{width:52px;height:52px;border-radius:50%;border:1.5px solid var(--border-2);display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:.72rem;font-weight:500;color:var(--ink-soft);transition:all .2s;flex-shrink:0}
+.f-name{font-size:.98rem;font-weight:600;color:var(--ink);margin-bottom:.3rem}
+.f-desc{font-size:.855rem;color:var(--ink-soft);line-height:1.7}
+.f-tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:.55rem}
+.ftag{font-size:.67rem;font-weight:500;padding:3px 10px;border-radius:100px;background:var(--cream-2);color:var(--ink-soft);border:1px solid var(--border)}
+.ftag-r{background:var(--red-light);color:var(--red);border-color:var(--red-border)}
+.f-ticket{text-align:right;flex-shrink:0}
+.f-val{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:var(--ink);line-height:1}
+.f-sub{font-size:.7rem;color:var(--ink-mute);margin-top:3px}
+
+/* ── P&L ── */
+.pl-band{background:var(--ink);padding:6.5rem 0}
+.pl-inner{max-width:1240px;margin:0 auto;padding:0 4rem}
+.pl-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.08);margin-top:3.5rem}
+.pl-col{background:rgba(255,255,255,.03);padding:2rem 1.8rem}
+.pl-col.highlight{background:rgba(200,16,46,.12);border-top:2px solid var(--red)}
+.pl-col-title{font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:1.6rem}
+.pl-row{display:flex;justify-content:space-between;align-items:baseline;padding:.45rem 0;border-bottom:1px solid rgba(255,255,255,.06)}
+.pl-row:last-child{border-bottom:none}
+.pl-label{font-size:.82rem;color:rgba(255,255,255,.55)}
+.pl-num{font-family:'DM Mono',monospace;font-size:.82rem;font-weight:500;color:rgba(255,255,255,.85)}
+.pl-num.pos{color:#4ADE80}
+.pl-num.neg{color:#F87171}
+.pl-total{display:flex;justify-content:space-between;align-items:baseline;padding:.7rem 0 0;margin-top:.5rem;border-top:1px solid rgba(255,255,255,.2)}
+.pl-total-label{font-size:.82rem;font-weight:600;color:rgba(255,255,255,.7)}
+.pl-total-num{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;color:#fff}
+.pl-total-num.pos{color:#4ADE80}
+.pl-note{font-size:.75rem;color:rgba(255,255,255,.3);margin-top:2rem;line-height:1.6}
+
+/* ── STAKEHOLDERS ── */
+.sk-wrap{background:var(--cream-2);padding:6.5rem 0}
+.sk-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem;margin-top:3.5rem}
+.sk-card{background:var(--white);border:1px solid var(--border-2);border-radius:2px;overflow:hidden;transition:transform .2s,box-shadow .2s}
+.sk-card:hover{transform:translateY(-3px);box-shadow:0 12px 28px rgba(0,0,0,.07)}
+.sk-head{display:flex;align-items:center;gap:1.2rem;padding:1.4rem 2rem;border-bottom:1px solid var(--border)}
+.sk-ico{width:46px;height:46px;border-radius:50%;background:var(--ink);display:flex;align-items:center;justify-content:center;font-size:.9rem;font-weight:700;color:#fff;flex-shrink:0;font-family:'DM Mono',monospace}
+.sk-role{font-size:.95rem;font-weight:600;color:var(--ink)}
+.sk-pri{font-size:.67rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-top:2px}
+.pri-1{color:var(--red)}.pri-2{color:var(--amber)}.pri-3{color:var(--ink-mute)}
+.sk-body{padding:1.4rem 2rem;display:flex;flex-direction:column;gap:.85rem}
+.sk-row{display:grid;grid-template-columns:88px 1fr;gap:.7rem}
+.sk-key{font-size:.68rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-mute);padding-top:2px}
+.sk-val{font-size:.855rem;color:var(--ink-soft);line-height:1.65}
+
+/* ── COMPETITIVO ── */
+.comp-table{width:100%;border-collapse:collapse;margin-top:3.5rem}
+.comp-table th{background:var(--ink);color:#fff;font-size:.72rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;padding:1rem 1.4rem;text-align:left}
+.comp-table th:first-child{border-radius:0}
+.comp-table td{padding:1rem 1.4rem;font-size:.875rem;color:var(--ink-soft);border-bottom:1px solid var(--border);background:var(--white);vertical-align:top;line-height:1.6}
+.comp-table tr:nth-child(even) td{background:var(--cream-2)}
+.comp-table tr.highlight-row td{background:var(--red-light);color:var(--ink);font-weight:500}
+.comp-table tr.highlight-row td:first-child{border-left:3px solid var(--red)}
+.comp-tag{display:inline-block;font-size:.65rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;padding:.2rem .6rem;border-radius:100px}
+.ct-r{background:var(--red-light);color:var(--red);border:1px solid var(--red-border)}
+.ct-g{background:var(--green-light);color:var(--green-mid);border:1px solid rgba(26,122,74,.2)}
+.ct-b{background:var(--blue-light);color:var(--blue);border:1px solid rgba(18,81,163,.18)}
+.ct-a{background:var(--amber-light);color:var(--amber);border:1px solid rgba(184,107,0,.2)}
+
+/* ── RISCO ── */
+.risk-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:3.5rem}
+.risk-card{background:var(--white);border:1px solid var(--border-2);padding:2rem;border-radius:2px}
+.risk-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem}
+.risk-title{font-size:.92rem;font-weight:600;color:var(--ink);line-height:1.3}
+.risk-level{font-size:.65rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;padding:.25rem .7rem;border-radius:100px}
+.rl-low{background:var(--green-light);color:var(--green-mid);border:1px solid rgba(26,122,74,.2)}
+.rl-med{background:var(--amber-light);color:var(--amber);border:1px solid rgba(184,107,0,.2)}
+.risk-mitigation{font-size:.82rem;color:var(--ink-soft);line-height:1.7}
+.risk-mit-label{font-size:.67rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--green);margin-bottom:.4rem}
+
+/* ── ESTRUTURA ── */
+.struct-band{background:var(--cream-2);padding:6.5rem 0}
+.struct-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;margin-top:3.5rem;align-items:start}
+.struct-block{background:var(--white);border:1px solid var(--border-2);padding:2rem}
+.struct-block-title{font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-mute);margin-bottom:1.4rem;padding-bottom:.8rem;border-bottom:1px solid var(--border)}
+.struct-item{display:grid;grid-template-columns:1fr auto;gap:1rem;align-items:start;padding:.7rem 0;border-bottom:1px solid var(--border)}
+.struct-item:last-child{border-bottom:none}
+.struct-item-name{font-size:.875rem;font-weight:600;color:var(--ink)}
+.struct-item-desc{font-size:.8rem;color:var(--ink-soft);margin-top:.2rem;line-height:1.5}
+.struct-item-status{font-size:.67rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:.2rem .6rem;border-radius:100px;flex-shrink:0;margin-top:2px}
+.ss-exists{background:var(--green-light);color:var(--green-mid);border:1px solid rgba(26,122,74,.2)}
+.ss-new{background:var(--amber-light);color:var(--amber);border:1px solid rgba(184,107,0,.2)}
+.ss-minimal{background:var(--blue-light);color:var(--blue);border:1px solid rgba(18,81,163,.18)}
+
+/* ── BENCHMARK ── */
+.bench-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3.5rem}
+.bench-card{background:var(--white);border:1px solid var(--border-2);padding:2rem;border-radius:2px}
+.bench-company{font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-mute);margin-bottom:.6rem}
+.bench-title{font-size:1rem;font-weight:600;color:var(--ink);margin-bottom:.8rem;font-family:'Playfair Display',serif}
+.bench-txt{font-size:.855rem;color:var(--ink-soft);line-height:1.7;margin-bottom:1.2rem}
+.bench-learn{background:var(--blue-light);border-left:3px solid var(--blue);padding:.8rem 1rem;font-size:.82rem;color:var(--blue);line-height:1.6}
+.bench-learn-label{font-size:.65rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--blue);margin-bottom:.3rem}
+
+/* ── TIMELINE ── */
+.timeline{position:relative;margin-top:3.5rem}
+.timeline::before{content:'';position:absolute;left:35px;top:0;bottom:0;width:1px;background:var(--border-2)}
+.tl-item{display:grid;grid-template-columns:72px 1fr;gap:2.5rem;margin-bottom:2.8rem}
+.tl-dot{display:flex;justify-content:center;padding-top:4px}
+.tl-circle{width:16px;height:16px;border-radius:50%;background:var(--red);border:3px solid var(--cream);box-shadow:0 0 0 1px var(--red);position:relative;z-index:1;flex-shrink:0}
+.tl-period{font-family:'DM Mono',monospace;font-size:.68rem;font-weight:500;color:var(--red);letter-spacing:.08em;text-transform:uppercase;margin-bottom:.45rem}
+.tl-title{font-size:1.05rem;font-weight:600;color:var(--ink);margin-bottom:.7rem}
+.tl-list{list-style:none;display:flex;flex-direction:column;gap:.35rem}
+.tl-list li{font-size:.855rem;color:var(--ink-soft);padding-left:1.1rem;position:relative;line-height:1.65}
+.tl-list li::before{content:'—';position:absolute;left:0;color:var(--red);font-size:.65rem;top:2px}
+
+/* ── KPI ── */
+.kpi-band{background:var(--ink);padding:6.5rem 0}
+.kpi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.07);margin-top:3.5rem}
+.kpi-card{background:rgba(255,255,255,.025);padding:2rem}
+.kpi-name{font-size:.78rem;font-weight:500;color:rgba(255,255,255,.4);margin-bottom:1.4rem;letter-spacing:.03em}
+.kpi-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:.4rem}
+.kpi-cl{font-size:.62rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.28);margin-bottom:.35rem}
+.kpi-v{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;color:#fff;line-height:1}
+.kpi-v.accent{color:var(--red)}
+
+/* ── OBJEÇÕES ── */
+.obj{border:1px solid var(--border-2);background:var(--white);margin-bottom:.85rem;border-radius:2px;overflow:hidden;cursor:pointer}
+.obj:hover{border-color:var(--border-2)}
+.obj-head{display:flex;align-items:center;justify-content:space-between;padding:1.4rem 2rem;gap:1rem}
+.obj-q{font-size:.92rem;font-weight:600;color:var(--ink)}
+.obj-tog{width:26px;height:26px;border-radius:50%;background:var(--cream-2);border:1px solid var(--border-2);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:.95rem;color:var(--red);font-weight:700;transition:transform .2s}
+.obj.open .obj-tog{transform:rotate(45deg)}
+.obj-body{display:none;padding:0 2rem 1.4rem;border-top:1px solid var(--border)}
+.obj.open .obj-body{display:block}
+.obj-rl{font-size:.67rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--green);margin-bottom:.5rem;margin-top:1rem}
+.obj-resp{font-size:.88rem;color:var(--ink-soft);line-height:1.75;font-style:italic}
+
+/* ── PRÓXIMOS PASSOS ── */
+.steps-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--border-2);border:1px solid var(--border-2);margin-top:3.5rem}
+.step-card{background:var(--white);padding:2rem 1.6rem}
+.step-n{font-family:'DM Mono',monospace;font-size:.67rem;color:var(--red);letter-spacing:.1em;margin-bottom:.9rem}
+.step-title{font-size:.88rem;font-weight:600;color:var(--ink);line-height:1.4;margin-bottom:.55rem}
+.step-desc{font-size:.78rem;color:var(--ink-soft);line-height:1.65}
+
+/* ── FOOTER ── */
+footer{background:var(--ink);padding:2.8rem 4rem;display:flex;justify-content:space-between;align-items:center}
+.f-logo{font-family:'Playfair Display',serif;font-weight:900;font-size:1rem;color:#fff}
+.f-logo span{color:var(--red)}
+.f-note{font-size:.78rem;color:rgba(255,255,255,.3)}
+
+/* ── REVEAL ── */
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .55s ease,transform .55s ease}
+.reveal.vis{opacity:1;transform:none}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}
+
+/* ── SCROLL HINT ── */
+.scroll-hint{position:absolute;bottom:2.5rem;left:5rem;display:flex;align-items:center;gap:10px;font-size:.68rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.28)}
+.sh-line{width:28px;height:1px;background:rgba(255,255,255,.25);position:relative;overflow:hidden}
+.sh-line::after{content:'';position:absolute;left:-100%;top:0;width:100%;height:100%;background:#fff;animation:sl 2s ease-in-out infinite}
+@keyframes sl{0%{left:-100%}100%{left:100%}}
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<nav>
+  <div class="nav-logo">Med<span>·</span>Review <span style="color:var(--ink);font-weight:300">R1</span></div>
+  <div class="nav-pills">
+    <a href="#oportunidade">Oportunidade</a>
+    <a href="#modelo">Modelo</a>
+    <a href="#financeiro">Financeiro</a>
+    <a href="#competitivo">Competitivo</a>
+    <a href="#riscos">Riscos</a>
+    <a href="#equipe">Equipe</a>
+    <a href="#plano">Plano</a>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════ HERO ══════════════════════════════════ -->
+<div class="hero">
+  <div class="hero-l">
+    <div class="hero-tag">Apresentação Executiva · Canal B2B Faculdades</div>
+    <h1 class="hero-title">O canal que<br>ainda não<br><em>exploramos.</em></h1>
+    <p class="hero-desc">Cada faculdade de medicina brasileira é um hub de alunos R1 captivos, com demanda real por preparação para Residência e ENAMED — e sem um parceiro de conteúdo consolidado.</p>
+    <a href="#oportunidade" class="hero-cta">Ver a estratégia →</a>
+    <div class="scroll-hint"><div class="sh-line"></div>Role para explorar</div>
+  </div>
+  <div class="hero-r">
+    <div class="stat-row reveal">
+      <div class="stat-bar"></div>
+      <div>
+        <span class="stat-badge badge-red">Mercado</span>
+        <div class="stat-num">~50k</div>
+        <div class="stat-txt">médicos formados por ano. 100% precisam de Residência ou título para especialização.</div>
+      </div>
+    </div>
+    <div class="stat-row reveal d1">
+      <div class="stat-bar"></div>
+      <div>
+        <span class="stat-badge badge-amber">Concentração</span>
+        <div class="stat-num">360+</div>
+        <div class="stat-txt">cursos de medicina ativos no Brasil. Cada um é um ponto de entrada para dezenas ou centenas de alunos R1.</div>
+      </div>
+    </div>
+    <div class="stat-row reveal d2">
+      <div class="stat-bar"></div>
+      <div>
+        <span class="stat-badge badge-green">Oportunidade</span>
+        <div class="stat-num">R$ 0</div>
+        <div class="stat-txt">investimento para o primeiro passo. O modelo de entrada por aulão gratuito elimina o risco de validação.</div>
+      </div>
+    </div>
+    <div class="stat-row reveal d3">
+      <div class="stat-bar"></div>
+      <div>
+        <span class="stat-badge badge-blue">Potencial</span>
+        <div class="stat-num">R$1.2M+</div>
+        <div class="stat-txt">receita incremental estimada no primeiro ano com 10 contratos institucionais convertidos.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════ OPORTUNIDADE ═══════════════════════════════ -->
+<section id="oportunidade">
+  <div class="wrap">
+    <div class="label">Diagnóstico</div>
+    <h2 class="title">Por que o canal B2B faculdades ainda não foi explorado</h2>
+    <p class="sub">Três barreiras reais bloquearam a abertura. A estratégia aqui apresentada foi desenhada para eliminar cada uma delas, na ordem certa.</p>
+    <div class="prob-grid">
+      <div class="prob-card reveal">
+        <div class="prob-n">01 —</div>
+        <div class="prob-title">Decisão multiestakeholder</div>
+        <p class="prob-txt">Liga, coordenador e direção precisam alinhar. O produto principal (cursinho completo) exige comprometimento institucional que a faculdade ainda não está pronta para dar sem conhecer a Med-Review.</p>
+      </div>
+      <div class="prob-card reveal d1">
+        <div class="prob-n">02 —</div>
+        <div class="prob-title">Ausência de prova social local</div>
+        <p class="prob-txt">Resultados nacionais não convencem a coordenação de uma faculdade específica. Sem aprovados visíveis naquela instituição, a barreira de confiança persiste independente da qualidade do produto.</p>
+      </div>
+      <div class="prob-card reveal d2">
+        <div class="prob-n">03 —</div>
+        <div class="prob-title">Ticket alto como primeira oferta</div>
+        <p class="prob-txt">Apresentar o cursinho R1 completo como abertura exige comprometimento prematuro. É preciso gerar valor antes de cobrar — e documentar esse valor para subir no ticket.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── HIPÓTESE ─── -->
+<div class="hipotese">
+  <div class="hip-inner">
+    <div>
+      <div class="label label-white">A tese</div>
+      <div class="hip-tag">Hipótese<br>Central</div>
+    </div>
+    <blockquote class="hip-quote reveal">
+      "Se gerarmos valor real para alunos e ligas antes de qualquer transação comercial, a barreira de entrada colapsa — e o caminho para o contrato institucional se abre com a confiança já construída."
+    </blockquote>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════ MODELO ════════════════════════════════ -->
+<section id="modelo">
+  <div class="wrap">
+    <div class="label">O Modelo</div>
+    <h2 class="title">Funil de entrada por ticket progressivo</h2>
+    <p class="sub">Entrar sem risco percebido. Provar valor em cada etapa. Subir no ticket com a confiança já construída.</p>
+    <div style="margin-top:3.5rem">
+      <div class="funil-item reveal">
+        <div class="f-badge">N1</div>
+        <div>
+          <div class="f-name">Aulão Gratuito para a Liga</div>
+          <div class="f-desc">2–3h ao vivo com especialista Med-Review sobre tema quente de Residência ou ENAMED. A liga organiza, a gente entrega. Zero risco institucional — máximo valor percebido.</div>
+          <div class="f-tags"><span class="ftag ftag-r">Entrada sem custo</span><span class="ftag">Captura de leads</span><span class="ftag">Prova de qualidade</span><span class="ftag">Abertura de relacionamento</span></div>
+        </div>
+        <div class="f-ticket"><div class="f-val">R$ 0</div><div class="f-sub">para a liga</div></div>
+      </div>
+      <div class="funil-item reveal d1">
+        <div class="f-badge">N2</div>
+        <div>
+          <div class="f-name">Simulado Comentado</div>
+          <div class="f-desc">Prova no modelo FMUSP, USP, Revalida e ENAMED + gabarito comentado ao vivo. Alto valor percebido, baixo custo de entrega. Oferta de 48h para quem participou do aulão.</div>
+          <div class="f-tags"><span class="ftag ftag-r">Primeiro produto pago</span><span class="ftag">2× por ano</span><span class="ftag">Conversão do aulão</span></div>
+        </div>
+        <div class="f-ticket"><div class="f-val">R$ 49–79</div><div class="f-sub">por aluno</div></div>
+      </div>
+      <div class="funil-item reveal d2">
+        <div class="f-badge">N3</div>
+        <div>
+          <div class="f-name">Sprint Intensivo da Liga</div>
+          <div class="f-desc">Módulo temático 4–8 semanas: aulas de Residência + banco de questões + plantão de dúvidas. Liga compra em bloco com desconto, repassa aos membros. Primeiro contrato B2B real.</div>
+          <div class="f-tags"><span class="ftag ftag-r">Primeiro B2B</span><span class="ftag">Semi-anual</span><span class="ftag">Venda em bloco</span></div>
+        </div>
+        <div class="f-ticket"><div class="f-val">R$ 200–400</div><div class="f-sub">por aluno / bloco</div></div>
+      </div>
+      <div class="funil-item reveal d3">
+        <div class="f-badge">N4</div>
+        <div>
+          <div class="f-name">Contrato Institucional</div>
+          <div class="f-desc">Acesso ao cursinho R1 completo para alunos da faculdade com co-branding. Faculdade subsidia parcialmente, aluno complementa. Pré-requisito: aprovados da faculdade documentados.</div>
+          <div class="f-tags"><span class="ftag ftag-r">Escala real</span><span class="ftag">Anual / semestral</span><span class="ftag">Faculdade como canal</span></div>
+        </div>
+        <div class="f-ticket"><div class="f-val">Contrato</div><div class="f-sub">negociado</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════ FINANCEIRO ════════════════════════════════ -->
+<div class="pl-band" id="financeiro">
+  <div class="pl-inner">
+    <div class="label label-white">Projeção Financeira</div>
+    <h2 class="title title-white">P&L simplificado — primeiro ano</h2>
+    <p class="sub sub-white">Cenários conservador e base com premissas explícitas. Investimento inicial mínimo, retorno a partir do mês 4.</p>
+    <div class="pl-grid">
+      <div class="pl-col">
+        <div class="pl-col-title">Premissas</div>
+        <div class="pl-row"><span class="pl-label">Faculdades abordadas</span><span class="pl-num">40</span></div>
+        <div class="pl-row"><span class="pl-label">Conversão aulão</span><span class="pl-num">60%</span></div>
+        <div class="pl-row"><span class="pl-label">Alunos por aulão</span><span class="pl-num">50</span></div>
+        <div class="pl-row"><span class="pl-label">Conv. simulado</span><span class="pl-num">30%</span></div>
+        <div class="pl-row"><span class="pl-label">Conv. pacote liga</span><span class="pl-num">20%</span></div>
+        <div class="pl-row"><span class="pl-label">Conv. contrato</span><span class="pl-num">10%</span></div>
+        <div class="pl-row"><span class="pl-label">Ticket simulado</span><span class="pl-num">R$ 59</span></div>
+        <div class="pl-row"><span class="pl-label">Ticket pacote</span><span class="pl-num">R$ 280</span></div>
+        <div class="pl-row"><span class="pl-label">Ticket contrato</span><span class="pl-num">R$ 80k/ano</span></div>
+      </div>
+      <div class="pl-col">
+        <div class="pl-col-title">Cenário Conservador</div>
+        <div class="pl-row"><span class="pl-label">Aulões realizados</span><span class="pl-num">15</span></div>
+        <div class="pl-row"><span class="pl-label">Simulados vendidos</span><span class="pl-num">225</span></div>
+        <div class="pl-row"><span class="pl-label">Pacotes liga</span><span class="pl-num">3 ligas × 20</span></div>
+        <div class="pl-row"><span class="pl-label">Contratos</span><span class="pl-num">1</span></div>
+        <div class="pl-row"><span class="pl-label">Receita simulados</span><span class="pl-num pos">R$ 13.275</span></div>
+        <div class="pl-row"><span class="pl-label">Receita pacotes</span><span class="pl-num pos">R$ 16.800</span></div>
+        <div class="pl-row"><span class="pl-label">Receita contratos</span><span class="pl-num pos">R$ 80.000</span></div>
+        <div class="pl-row"><span class="pl-label">Custo operacional</span><span class="pl-num neg">- R$ 28.000</span></div>
+        <div class="pl-total"><span class="pl-total-label">Resultado líquido</span><span class="pl-total-num pos">R$ 82k</span></div>
+      </div>
+      <div class="pl-col highlight">
+        <div class="pl-col-title" style="color:rgba(255,255,255,.6)">Cenário Base ★</div>
+        <div class="pl-row"><span class="pl-label">Aulões realizados</span><span class="pl-num">30</span></div>
+        <div class="pl-row"><span class="pl-label">Simulados vendidos</span><span class="pl-num">540</span></div>
+        <div class="pl-row"><span class="pl-label">Pacotes liga</span><span class="pl-num">8 ligas × 25</span></div>
+        <div class="pl-row"><span class="pl-label">Contratos</span><span class="pl-num">4</span></div>
+        <div class="pl-row"><span class="pl-label">Receita simulados</span><span class="pl-num pos">R$ 31.860</span></div>
+        <div class="pl-row"><span class="pl-label">Receita pacotes</span><span class="pl-num pos">R$ 56.000</span></div>
+        <div class="pl-row"><span class="pl-label">Receita contratos</span><span class="pl-num pos">R$ 320.000</span></div>
+        <div class="pl-row"><span class="pl-label">Custo operacional</span><span class="pl-num neg">- R$ 55.000</span></div>
+        <div class="pl-total"><span class="pl-total-label">Resultado líquido</span><span class="pl-total-num pos">R$ 353k</span></div>
+      </div>
+      <div class="pl-col">
+        <div class="pl-col-title">Estrutura de Custo</div>
+        <div class="pl-row"><span class="pl-label">Horas comerciais (1 pessoa)</span><span class="pl-num">R$ 24k</span></div>
+        <div class="pl-row"><span class="pl-label">Produção de conteúdo</span><span class="pl-num">R$ 12k</span></div>
+        <div class="pl-row"><span class="pl-label">Ferramentas (HubSpot, etc.)</span><span class="pl-num">R$ 6k</span></div>
+        <div class="pl-row"><span class="pl-label">Materiais e eventos</span><span class="pl-num">R$ 8k</span></div>
+        <div class="pl-row"><span class="pl-label">Deslocamentos</span><span class="pl-num">R$ 5k</span></div>
+        <div style="margin-top:2rem">
+          <div class="pl-row"><span class="pl-label">Break-even</span><span class="pl-num" style="color:#FACC15">Mês 4</span></div>
+          <div class="pl-row"><span class="pl-label">Payback</span><span class="pl-num" style="color:#FACC15">&lt; 6 meses</span></div>
+          <div class="pl-row"><span class="pl-label">ROI ano 1 (base)</span><span class="pl-num pos">~642%</span></div>
+        </div>
+        <div class="pl-note">* Custos incluem apenas incremento sobre estrutura existente. Conteúdo produzido é reutilizável nos anos seguintes.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════ STAKEHOLDERS ══════════════════════════════ -->
+<div class="sk-wrap" id="stakeholders">
+  <div class="wrap">
+    <div class="label">Personas</div>
+    <h2 class="title">Quem precisamos conquistar — e em qual ordem</h2>
+    <p class="sub">Quatro perfis com motivações distintas. A sequência de abordagem determina o sucesso da entrada.</p>
+    <div class="sk-grid">
+      <div class="sk-card reveal">
+        <div class="sk-head">
+          <div class="sk-ico">L</div>
+          <div><div class="sk-role">Liga Acadêmica</div><div class="sk-pri pri-1">Porta de entrada — abordar primeiro</div></div>
+        </div>
+        <div class="sk-body">
+          <div class="sk-row"><div class="sk-key">Quem são</div><div class="sk-val">Alunos organizados em grupos de estudo para Residência. Diretoria eleita, presença ativa no Instagram e LinkedIn.</div></div>
+          <div class="sk-row"><div class="sk-key">Motivação</div><div class="sk-val">Conteúdo diferenciado para membros, prestígio da liga e atividade que comprove preparo para Residência.</div></div>
+          <div class="sk-row"><div class="sk-key">Argumento</div><div class="sk-val">"Você organiza, a gente entrega o conteúdo. Fica ótimo no currículo da liga e não custa nada."</div></div>
+          <div class="sk-row"><div class="sk-key">Canal</div><div class="sk-val">DM no Instagram, e-mail da diretoria. Tom direto e sem burocracia.</div></div>
+        </div>
+      </div>
+      <div class="sk-card reveal d1">
+        <div class="sk-head">
+          <div class="sk-ico">C</div>
+          <div><div class="sk-role">Coordenador de Curso</div><div class="sk-pri pri-2">Decisor de médio prazo</div></div>
+        </div>
+        <div class="sk-body">
+          <div class="sk-row"><div class="sk-key">Quem são</div><div class="sk-val">Professor responsável pelo curso. Preocupado com indicadores, ranking e reputação perante MEC e mercado.</div></div>
+          <div class="sk-row"><div class="sk-key">Motivação</div><div class="sk-val">Taxa de aprovação em Residência e ENAMED como diferencial competitivo da instituição.</div></div>
+          <div class="sk-row"><div class="sk-key">Argumento</div><div class="sk-val">"X alunos da sua faculdade participaram. NPS de Y/10. Z querem continuar — posso te mostrar os dados."</div></div>
+          <div class="sk-row"><div class="sk-key">Canal</div><div class="sk-val">E-mail formal + one-pager + reunião. Levar resultados do aulão como credencial.</div></div>
+        </div>
+      </div>
+      <div class="sk-card reveal d2">
+        <div class="sk-head">
+          <div class="sk-ico">D</div>
+          <div><div class="sk-role">Diretor Acadêmico</div><div class="sk-pri pri-3">Decisor final — abordar por último</div></div>
+        </div>
+        <div class="sk-body">
+          <div class="sk-row"><div class="sk-key">Quem são</div><div class="sk-val">Gestão da faculdade. Foco em ranking, retenção de alunos e diferencial frente a concorrentes.</div></div>
+          <div class="sk-row"><div class="sk-key">Motivação</div><div class="sk-val">ROI institucional: taxa de aprovação, retenção, posição no ranking. Benefício sem custo de gestão.</div></div>
+          <div class="sk-row"><div class="sk-key">Argumento</div><div class="sk-val">"Temos dados de aprovação de alunos de cursos parceiros e podemos estruturar algo exclusivo para vocês."</div></div>
+          <div class="sk-row"><div class="sk-key">Canal</div><div class="sk-val">Somente após tração interna comprovada. Entrada via coordenador ou indicação.</div></div>
+        </div>
+      </div>
+      <div class="sk-card reveal d3">
+        <div class="sk-head">
+          <div class="sk-ico">P</div>
+          <div><div class="sk-role">Professor / Preceptor</div><div class="sk-pri pri-2">Influenciador — porta lateral</div></div>
+        </div>
+        <div class="sk-body">
+          <div class="sk-row"><div class="sk-key">Quem são</div><div class="sk-val">Docentes de clínica médica e cirurgia. Influência direta sobre alunos que mais estudam para Residência.</div></div>
+          <div class="sk-row"><div class="sk-key">Motivação</div><div class="sk-val">Querem ver seus alunos aprovados sem precisar de trabalho adicional para isso.</div></div>
+          <div class="sk-row"><div class="sk-key">Argumento</div><div class="sk-val">"Posso ser um recurso extra para seu aluno sem nenhum trabalho adicional da sua parte."</div></div>
+          <div class="sk-row"><div class="sk-key">Canal</div><div class="sk-val">Via indicação da liga. Tom acadêmico, citar metodologia e resultados.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════ COMPETITIVO ═══════════════════════════════ -->
+<section id="competitivo">
+  <div class="wrap">
+    <div class="label">Análise Competitiva</div>
+    <h2 class="title">Onde a Med-Review ganha</h2>
+    <p class="sub">O mercado de preparação para Residência Médica tem players bem estabelecidos. A oportunidade está no que nenhum deles faz: entrar pela faculdade antes do aluno decidir.</p>
+    <table class="comp-table">
+      <thead>
+        <tr>
+          <th>Player</th>
+          <th>Modelo</th>
+          <th>Presença B2B em faculdades</th>
+          <th>Foco</th>
+          <th>Brecha para Med-Review</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Medcurso / Medcel</strong></td>
+          <td>Material impresso + questões. Legado forte.</td>
+          <td><span class="comp-tag ct-a">Distribuição física</span></td>
+          <td>Questões e apostilas</td>
+          <td>Sem conteúdo ao vivo. Não gera relacionamento com a liga.</td>
+        </tr>
+        <tr>
+          <td><strong>Estratégia MED</strong></td>
+          <td>Plataforma digital, forte em marketing de conteúdo.</td>
+          <td><span class="comp-tag ct-a">Baixa</span></td>
+          <td>Volume e custo baixo</td>
+          <td>Commodity de questões. Sem diferencial de especialistas ao vivo.</td>
+        </tr>
+        <tr>
+          <td><strong>Medway</strong></td>
+          <td>Cursos intensivos e extensivos. Forte em grandes centros.</td>
+          <td><span class="comp-tag ct-a">Pontual</span></td>
+          <td>Alunos de alta renda</td>
+          <td>Ticket alto. Não aborda alunos de faculdades do interior/regionais.</td>
+        </tr>
+        <tr>
+          <td><strong>Cursinhos locais</strong></td>
+          <td>Aulas presenciais locais. Custo alto, escala limitada.</td>
+          <td><span class="comp-tag ct-a">Informal</span></td>
+          <td>Público local</td>
+          <td>Sem conteúdo digital. Não escala. Não têm banco de questões.</td>
+        </tr>
+        <tr class="highlight-row">
+          <td><strong>Med-Review R1</strong></td>
+          <td>Especialistas ao vivo + banco de questões + entrada pela liga.</td>
+          <td><span class="comp-tag ct-g">Estratégia estruturada</span></td>
+          <td>Aluno R1 em formação</td>
+          <td><strong>Primeiro mover com canal B2B institucional estruturado.</strong></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════ RISCOS ════════════════════════════════ -->
+<section id="riscos" style="background:var(--cream-2);padding:6.5rem 0">
+  <div class="wrap">
+    <div class="label">Gestão de Risco</div>
+    <h2 class="title">Riscos identificados e como mitigamos cada um</h2>
+    <p class="sub">A estratégia foi desenhada para minimizar exposição. Cada risco tem uma mitigação ativa — não apenas contingência.</p>
+    <div class="risk-grid">
+      <div class="risk-card reveal">
+        <div class="risk-header">
+          <div class="risk-title">Baixa adesão das ligas ao aulão gratuito</div>
+          <span class="risk-level rl-low">Baixo</span>
+        </div>
+        <div class="risk-mit-label">Mitigação</div>
+        <div class="risk-mitigation">Oferta com zero custo e zero burocracia para a liga. Professor âncora com nome reconhecido no tema. Meta de conversão de 60% com abordagem em 40+ ligas garante volume mesmo com taxa menor.</div>
+      </div>
+      <div class="risk-card reveal d1">
+        <div class="risk-header">
+          <div class="risk-title">Alunos não convertem do aulão para o simulado</div>
+          <span class="risk-level rl-low">Baixo</span>
+        </div>
+        <div class="risk-mit-label">Mitigação</div>
+        <div class="risk-mitigation">Oferta de 48h com desconto exclusivo para quem participou. Ticket de R$ 49–79 é impulso, não decisão. Validado como price point de baixa resistência no segmento acadêmico.</div>
+      </div>
+      <div class="risk-card reveal d2">
+        <div class="risk-header">
+          <div class="risk-title">Coordenador não abre reunião após o aulão</div>
+          <span class="risk-level rl-low">Baixo</span>
+        </div>
+        <div class="risk-mit-label">Mitigação</div>
+        <div class="risk-mitigation">A reunião com o coordenador não é necessária para os níveis 1–3. Eles ocorrem diretamente com a liga. O coordenador só é abordado com resultados em mãos — o que inverte a lógica da objeção.</div>
+      </div>
+      <div class="risk-card reveal">
+        <div class="risk-header">
+          <div class="risk-title">Concorrente replica o modelo de entrada pela liga</div>
+          <span class="risk-level rl-med">Médio</span>
+        </div>
+        <div class="risk-mit-label">Mitigação</div>
+        <div class="risk-mitigation">Velocidade de execução é o diferencial. Quem chegar primeiro cria o relacionamento e a prova social local. Após 2–3 aulões bem avaliados, a liga não troca de parceiro facilmente.</div>
+      </div>
+      <div class="risk-card reveal d1">
+        <div class="risk-header">
+          <div class="risk-title">Qualidade percebida não sustenta o funil</div>
+          <span class="risk-level rl-low">Baixo</span>
+        </div>
+        <div class="risk-mit-label">Mitigação</div>
+        <div class="risk-mitigation">O aulão funciona como piloto controlado. NPS abaixo de 7 no piloto pausa o canal antes de qualquer escala. A lógica "validar antes de escalar" está embutida na estrutura do modelo.</div>
+      </div>
+      <div class="risk-card reveal d2">
+        <div class="risk-header">
+          <div class="risk-title">Custo de operação supera receita no curto prazo</div>
+          <span class="risk-level rl-low">Baixo</span>
+        </div>
+        <div class="risk-mit-label">Mitigação</div>
+        <div class="risk-mitigation">Modelo autossustentável desde o nível 2. Um único contrato institucional (N4) cobre todo o custo operacional do ano. Break-even estimado no mês 4, com estrutura incremental mínima.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════ EQUIPE ════════════════════════════════ -->
+<div class="struct-band" id="equipe">
+  <div class="wrap">
+    <div class="label">Estrutura Necessária</div>
+    <h2 class="title">O que é preciso para executar — e o que já temos</h2>
+    <p class="sub">A estratégia foi desenhada para operar com a estrutura existente da Med-Review, com incremento mínimo em dois pontos específicos.</p>
+    <div class="struct-grid">
+      <div>
+        <div class="struct-block">
+          <div class="struct-block-title">Pessoas</div>
+          <div class="struct-item">
+            <div><div class="struct-item-name">Consultor Comercial B2B</div><div class="struct-item-desc">Responsável pela prospecção de ligas, gestão do pipeline e abordagem a coordenadores. Foco 60% neste canal.</div></div>
+            <span class="struct-item-status ss-exists">Existe</span>
+          </div>
+          <div class="struct-item">
+            <div><div class="struct-item-name">Professor Âncora por Vertical</div><div class="struct-item-desc">1 especialista por área para conduzir os aulões. Nome forte converte mais que qualquer argumento comercial.</div></div>
+            <span class="struct-item-status ss-exists">Existe</span>
+          </div>
+          <div class="struct-item">
+            <div><div class="struct-item-name">Suporte de Marketing</div><div class="struct-item-desc">Criação de materiais para ligas (landing page, flyer digital, e-mail). 4–6h/semana estimado.</div></div>
+            <span class="struct-item-status ss-minimal">Mínimo</span>
+          </div>
+          <div class="struct-item">
+            <div><div class="struct-item-name">CS / Onboarding das Ligas</div><div class="struct-item-desc">Acompanhamento pós-aulão, coleta de NPS e coordenação das próximas etapas do funil.</div></div>
+            <span class="struct-item-status ss-new">Novo</span>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="struct-block">
+          <div class="struct-block-title">Ferramentas e Recursos</div>
+          <div class="struct-item">
+            <div><div class="struct-item-name">HubSpot — Pipeline B2B</div><div class="struct-item-desc">Etapas: Liga Mapeada → Aulão Agendado → Realizado → Simulado → Pacote → Contrato.</div></div>
+            <span class="struct-item-status ss-exists">Existe</span>
+          </div>
+          <div class="struct-item">
+            <div><div class="struct-item-name">Plataforma de transmissão ao vivo</div><div class="struct-item-desc">Zoom ou Hotmart Sparkle para os aulões. Controle de lista de presença integrado.</div></div>
+            <span class="struct-item-status ss-exists">Existe</span>
+          </div>
+          <div class="struct-item">
+            <div><div class="struct-item-name">Landing page de inscrição do aulão</div><div class="struct-item-desc">Página específica por evento com captura de e-mail e faculdade. Permite segmentação da base.</div></div>
+            <span class="struct-item-status ss-new">Novo</span>
+          </div>
+          <div class="struct-item">
+            <div><div class="struct-item-name">Kit de proposta para ligas</div><div class="struct-item-desc">One-pager + deck executivo para coordenadores + modelo de contrato para pacotes de liga.</div></div>
+            <span class="struct-item-status ss-new">Novo</span>
+          </div>
+        </div>
+        <div style="margin-top:1rem;background:var(--green-light);border-left:3px solid var(--green);padding:1.2rem 1.5rem">
+          <div style="font-size:.7rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--green-mid);margin-bottom:.4rem">Conclusão</div>
+          <div style="font-size:.875rem;color:var(--green-mid);line-height:1.7">O canal pode ser iniciado com a estrutura atual. Os únicos incrementos são 2 entregas de conteúdo (landing page e kit de proposta) e uma reorganização de prioridades do consultor comercial.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════ BENCHMARK ═════════════════════════════════ -->
+<section id="benchmark">
+  <div class="wrap">
+    <div class="label">Casos de Referência</div>
+    <h2 class="title">Quem já fez algo parecido — e o que aprendemos</h2>
+    <p class="sub">Três benchmarks de setores adjacentes que usaram o modelo de entrada pela instituição para escalar em seguida.</p>
+    <div class="bench-grid">
+      <div class="bench-card reveal">
+        <div class="bench-company">EdTech · Brasil</div>
+        <div class="bench-title">Passei Direto</div>
+        <p class="bench-txt">Começou como ferramenta gratuita de compartilhamento de resumos entre alunos universitários. Sem custo de entrada, construiu base de usuários dentro das faculdades antes de lançar qualquer produto pago. Hoje tem mais de 4M de usuários cadastrados.</p>
+        <div class="bench-learn"><div class="bench-learn-label">O que aplicamos</div>Modelo freemium dentro da faculdade como geração de awareness. O valor gratuito constrói o banco de leads para o produto pago.</div>
+      </div>
+      <div class="bench-card reveal d1">
+        <div class="bench-company">Saúde · EUA</div>
+        <div class="bench-title">Amboss / Sketchy</div>
+        <p class="bench-txt">Plataformas de preparação para o USMLE que dominaram o mercado americano entrando pelas faculdades de medicina com licenças gratuitas para estudantes do 1º e 2º ano. A conversão acontecia naturalmente quando chegava a hora de pagar o exame.</p>
+        <div class="bench-learn"><div class="bench-learn-label">O que aplicamos</div>Acesso gratuito como estratégia de aquisição. A faculdade valida o produto — o aluno compra quando tem urgência real.</div>
+      </div>
+      <div class="bench-card reveal d2">
+        <div class="bench-company">EdTech · Brasil</div>
+        <div class="bench-title">Gran Cursos Online</div>
+        <p class="bench-txt">Construiu penetração nacional em concursos públicos usando o modelo de simulados gratuitos como isca. Os simulados geravam prova social (ranking público), capturavam leads e convertiam naturalmente para cursos pagos.</p>
+        <div class="bench-learn"><div class="bench-learn-label">O que aplicamos</div>O simulado comentado (N2) replica este modelo: entregável de alto valor percebido que captura dados e demonstra qualidade antes do produto principal.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════ PLANO ═════════════════════════════════ -->
+<section id="plano" style="background:var(--cream-2);padding:6.5rem 0">
+  <div class="wrap">
+    <div class="label">Execução</div>
+    <h2 class="title">Plano de ação — 90 dias</h2>
+    <p class="sub">Quatro fases sequenciais. Cada etapa gera o insumo necessário para a próxima — e o gate de validação para continuar investindo.</p>
+    <div class="timeline">
+      <div class="tl-item reveal">
+        <div class="tl-dot"><div class="tl-circle"></div></div>
+        <div>
+          <div class="tl-period">Semanas 1–2</div>
+          <div class="tl-title">Fase 1 — Mapeamento e Setup</div>
+          <ul class="tl-list">
+            <li>Listar 20+ faculdades-alvo com cursos de medicina (prioridade: interior e cidades médias)</li>
+            <li>Mapear ligas acadêmicas de Residência ativas no Instagram e LinkedIn</li>
+            <li>Definir professor âncora por área para os aulões piloto</li>
+            <li>Configurar pipeline no HubSpot e criar landing page de inscrição</li>
+            <li>Produzir kit de proposta para as ligas (DM + e-mail + one-pager)</li>
+          </ul>
+        </div>
+      </div>
+      <div class="tl-item reveal">
+        <div class="tl-dot"><div class="tl-circle"></div></div>
+        <div>
+          <div class="tl-period">Semanas 3–4</div>
+          <div class="tl-title">Fase 2 — Primeiro Contato com Ligas</div>
+          <ul class="tl-list">
+            <li>DM e e-mail para 40+ ligas com oferta do aulão gratuito</li>
+            <li>Argumento: "Você organiza, a gente entrega. Fica ótimo no currículo da liga."</li>
+            <li>Gate de validação: pelo menos 3 aulões confirmados para seguir</li>
+            <li>Briefing com os professores âncora sobre formato e conteúdo dos aulões</li>
+          </ul>
+        </div>
+      </div>
+      <div class="tl-item reveal">
+        <div class="tl-dot"><div class="tl-circle"></div></div>
+        <div>
+          <div class="tl-period">Semanas 5–8</div>
+          <div class="tl-title">Fase 3 — Execução e Construção de Prova Social</div>
+          <ul class="tl-list">
+            <li>Realizar os aulões piloto com captura de lista de presença (integrar HubSpot)</li>
+            <li>Pesquisa de NPS ao final de cada aulão — meta: NPS ≥ 7</li>
+            <li>Oferta de 48h do Simulado Comentado para quem participou (R$ 49–79)</li>
+            <li>Documentar resultados: alunos, NPS, depoimentos, prints de aprovação</li>
+            <li>Gate: se NPS &lt; 7 em 2+ aulões, revisar formato antes de escalar</li>
+          </ul>
+        </div>
+      </div>
+      <div class="tl-item reveal">
+        <div class="tl-dot"><div class="tl-circle"></div></div>
+        <div>
+          <div class="tl-period">Semanas 9–12</div>
+          <div class="tl-title">Fase 4 — Upsell e Abertura Institucional</div>
+          <ul class="tl-list">
+            <li>Apresentar dados ao coordenador: X alunos, NPS Y, Z querem continuar</li>
+            <li>Proposta do Sprint/Pacote Liga com desconto por volume (liga compra em bloco)</li>
+            <li>Onde houver abertura: iniciar negociação de contrato institucional</li>
+            <li>Meta: 1 contrato B2B fechado; 3+ ligas no pipeline para o próximo semestre</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════ KPIs ══════════════════════════════════ -->
+<div class="kpi-band" id="kpis">
+  <div class="wrap">
+    <div class="label label-white">Métricas</div>
+    <h2 class="title title-white">KPIs — primeiros 90 dias</h2>
+    <div class="kpi-grid">
+      <div class="kpi-card reveal"><div class="kpi-name">Ligas mapeadas</div><div class="kpi-cols"><div><div class="kpi-cl">30d</div><div class="kpi-v">20+</div></div><div><div class="kpi-cl">60d</div><div class="kpi-v">35+</div></div><div><div class="kpi-cl">90d</div><div class="kpi-v accent">50+</div></div></div></div>
+      <div class="kpi-card reveal d1"><div class="kpi-name">Aulões realizados</div><div class="kpi-cols"><div><div class="kpi-cl">30d</div><div class="kpi-v">3</div></div><div><div class="kpi-cl">60d</div><div class="kpi-v">8</div></div><div><div class="kpi-cl">90d</div><div class="kpi-v accent">15</div></div></div></div>
+      <div class="kpi-card reveal d2"><div class="kpi-name">NPS médio dos aulões</div><div class="kpi-cols"><div><div class="kpi-cl">30d</div><div class="kpi-v">—</div></div><div><div class="kpi-cl">60d</div><div class="kpi-v">≥7</div></div><div><div class="kpi-cl">90d</div><div class="kpi-v accent">≥8</div></div></div></div>
+      <div class="kpi-card reveal"><div class="kpi-name">Leads capturados</div><div class="kpi-cols"><div><div class="kpi-cl">30d</div><div class="kpi-v">100+</div></div><div><div class="kpi-cl">60d</div><div class="kpi-v">350+</div></div><div><div class="kpi-cl">90d</div><div class="kpi-v accent">700+</div></div></div></div>
+      <div class="kpi-card reveal d1"><div class="kpi-name">Simulados vendidos</div><div class="kpi-cols"><div><div class="kpi-cl">30d</div><div class="kpi-v">—</div></div><div><div class="kpi-cl">60d</div><div class="kpi-v">50+</div></div><div><div class="kpi-cl">90d</div><div class="kpi-v accent">150+</div></div></div></div>
+      <div class="kpi-card reveal d2"><div class="kpi-name">Contratos B2B</div><div class="kpi-cols"><div><div class="kpi-cl">30d</div><div class="kpi-v">—</div></div><div><div class="kpi-cl">60d</div><div class="kpi-v">—</div></div><div><div class="kpi-cl">90d</div><div class="kpi-v accent">1</div></div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════ OBJEÇÕES ══════════════════════════════════ -->
+<section id="objecoes">
+  <div class="wrap">
+    <div class="label">Objeções</div>
+    <h2 class="title">Respostas para as objeções esperadas</h2>
+    <p class="sub" style="margin-bottom:3rem">Clique em cada objeção para ver a resposta recomendada.</p>
+    <div class="obj reveal" onclick="this.classList.toggle('open')">
+      <div class="obj-head"><div class="obj-q">"Já temos parceria com outro cursinho de residência."</div><div class="obj-tog">+</div></div>
+      <div class="obj-body"><div class="obj-rl">Resposta</div><p class="obj-resp">"Não pedimos exclusividade. Um aulão gratuito é complementar ao que vocês já têm — não concorrente. O aluno ganha mais um recurso, a liga ganha mais uma atividade de prestígio, e você não abre mão de nada."</p></div>
+    </div>
+    <div class="obj reveal" onclick="this.classList.toggle('open')">
+      <div class="obj-head"><div class="obj-q">"Não temos budget para isso agora."</div><div class="obj-tog">+</div></div>
+      <div class="obj-body"><div class="obj-rl">Resposta</div><p class="obj-resp">"O primeiro passo é gratuito — a liga não investe absolutamente nada. Você só nos dá o espaço e a audiência. Se o resultado for bom, aí a gente conversa sobre o próximo nível com dados em mãos."</p></div>
+    </div>
+    <div class="obj reveal" onclick="this.classList.toggle('open')">
+      <div class="obj-head"><div class="obj-q">"Preciso aprovar com a direção antes de qualquer coisa."</div><div class="obj-tog">+</div></div>
+      <div class="obj-body"><div class="obj-rl">Resposta</div><p class="obj-resp">"Faz todo sentido. Mas o aulão para a liga não exige aprovação institucional — é uma atividade acadêmica como qualquer outra que a liga promove. Posso fazer uma apresentação rápida para vocês dois depois que tiver os números do aulão."</p></div>
+    </div>
+    <div class="obj reveal" onclick="this.classList.toggle('open')">
+      <div class="obj-head"><div class="obj-q">"Os nossos alunos não têm dinheiro para pagar."</div><div class="obj-tog">+</div></div>
+      <div class="obj-body"><div class="obj-rl">Resposta</div><p class="obj-resp">"No nível 1 o aluno não paga nada. No nível 2, o simulado custa menos que um livro — e é para a prova que define a carreira dele. No nível 3, a liga compra em bloco com desconto e divide entre os membros, ficando bem abaixo do mercado."</p></div>
+    </div>
+    <div class="obj reveal" onclick="this.classList.toggle('open')">
+      <div class="obj-head"><div class="obj-q">"Não conhecemos a Med-Review."</div><div class="obj-tog">+</div></div>
+      <div class="obj-body"><div class="obj-rl">Resposta</div><p class="obj-resp">"Entendo — e é exatamente por isso que a proposta é começar pelo aulão gratuito. Você nos conhece na prática, sem tomar nenhuma decisão antes disso. Se não gostar, não custou nada. Se gostar, os próximos passos fluem com a confiança já construída."</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ PRÓXIMOS PASSOS ═══════════════════════════════ -->
+<div style="background:var(--ink);padding:6.5rem 0">
+  <div class="wrap">
+    <div class="label label-white">Ação imediata</div>
+    <h2 class="title title-white">O que fazemos essa semana</h2>
+    <p class="sub sub-white" style="margin-bottom:0">Sem aprovação adicional. Tudo pode ser iniciado com a estrutura atual.</p>
+    <div class="steps-grid" style="margin-top:3.5rem">
+      <div class="step-card reveal"><div class="step-n">01 —</div><div class="step-title">Listar 10 ligas de Residência ativas</div><p class="step-desc">Instagram e LinkedIn. Prioridade: interior e cidades médias onde a concorrência é menor.</p></div>
+      <div class="step-card reveal d1"><div class="step-n">02 —</div><div class="step-title">Definir o professor âncora</div><p class="step-desc">O nome do especialista converte mais que qualquer argumento comercial no ambiente acadêmico.</p></div>
+      <div class="step-card reveal d2"><div class="step-n">03 —</div><div class="step-title">Criar template de DM/e-mail</div><p class="step-desc">Mensagem de abordagem para as ligas. Curta, direta, com a oferta do aulão sem custo.</p></div>
+      <div class="step-card reveal d3"><div class="step-n">04 —</div><div class="step-title">Configurar pipeline no HubSpot</div><p class="step-desc">Liga Mapeada → Aulão Agendado → Realizado → Simulado → Pacote → Contrato.</p></div>
+      <div class="step-card reveal d4"><div class="step-n">05 —</div><div class="step-title">Agendar aulão piloto</div><p class="step-desc">Uma faculdade-teste para validar o modelo. Tudo começa com o primeiro aulão.</p></div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="f-logo">Med<span>·</span>Review R1</div>
+  <div class="f-note">Estratégia Comercial B2B Faculdades · Apresentação Executiva · Confidencial</div>
+</footer>
+
+<script>
+const prog=document.getElementById('progress');
+window.addEventListener('scroll',()=>{
+  const s=window.scrollY,t=document.body.scrollHeight-window.innerHeight;
+  prog.style.width=Math.round(s/t*100)+'%';
+});
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');obs.unobserve(e.target)}});
+},{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    e.preventDefault();
+    const t=document.querySelector(a.getAttribute('href'));
+    if(t)t.scrollIntoView({behavior:'smooth'});
+  });
+});
+</script>
+</body>
+</html>
